@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = ({ config, mode }) => {
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
@@ -13,6 +15,22 @@ module.exports = ({ config, mode }) => {
       }
     ]
   });
+
+  config.module.rules.push({
+    test: [/\.css$/, /\.less$/],
+    use: [
+      "style-loader",
+      "css-loader",
+      {
+        loader: "less-loader",
+        options: {
+          paths: [path.resolve(__dirname, "../")]
+        }
+      }
+    ],
+    include: path.resolve(__dirname, "../")
+  });
+
   config.resolve.extensions.push(".ts", ".tsx");
   return config;
 };
