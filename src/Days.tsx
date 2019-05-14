@@ -1,20 +1,15 @@
 import React, { useContext } from "react";
-import moment from "moment";
 import { Context } from ".";
 
-interface Props {
-  viewDate: moment.Moment;
-}
+interface Props {}
 
 export const Days: React.SFC<Props> = props => {
   const { viewDate } = useContext(Context);
 
-  const t = performance.now();
+  const year = viewDate.year();
+  const month = viewDate.month();
 
-  const year = props.viewDate.year();
-  const month = props.viewDate.month();
-
-  let prevMonth = props.viewDate.clone().subtract(1, "month");
+  let prevMonth = viewDate.clone().subtract(1, "month");
   const days = prevMonth.daysInMonth();
 
   // change to first day of last week in previous month
@@ -30,7 +25,7 @@ export const Days: React.SFC<Props> = props => {
   ).concat(
     Array.from(
       {
-        length: props.viewDate.daysInMonth()
+        length: viewDate.daysInMonth()
       },
       (_v, i) => ({ children: i + 1, className: "" })
     )
@@ -45,17 +40,16 @@ export const Days: React.SFC<Props> = props => {
     )
   );
 
-  console.log("time", performance.now() - t);
-
   return (
-    <div className="days">
+    <>
       {dayCells.map((cellProps, index) => (
         <div
-          key={`${props.viewDate.format("YYYY-MM")}-${index}`}
+          key={`${viewDate.format("YYYY-MM")}-${index}`}
           {...cellProps}
+          className={`day ${cellProps.className}`}
         />
       ))}
-    </div>
+    </>
   );
 };
 

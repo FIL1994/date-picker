@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useMemo } from "react";
 import moment from "moment";
 import "./calendar.less";
 import Days from "./Days";
@@ -18,6 +18,7 @@ type DateSelectorContext = {
 
 export const DateSelector: React.SFC<Props> = props => {
   const [viewDate, setViewDate] = useState(() => moment());
+  const weekdays = useMemo(() => moment.weekdaysMin(), []);
 
   return (
     <Context.Provider value={{ viewDate, setViewDate }}>
@@ -29,7 +30,14 @@ export const DateSelector: React.SFC<Props> = props => {
           </time>
           <span className="next">{`>`}</span>
         </div>
-        <Days viewDate={viewDate} />
+        <div className="days">
+          {weekdays.map(weekday => (
+            <div className="weekday" key={weekday}>
+              {weekday}
+            </div>
+          ))}
+          <Days />
+        </div>
       </div>
     </Context.Provider>
   );
