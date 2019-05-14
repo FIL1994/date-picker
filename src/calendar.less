@@ -47,7 +47,7 @@
     font-size: 1rem;
 
     * {
-      margin: 5px;
+      padding: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,11 +60,14 @@
     .weekday {
       color: lighten(@grey, 5%);
       font-size: 1.05rem;
+      border-bottom: 1px solid fadeout(white, 80%);
+      margin-bottom: 5px;
     }
 
     .day.today {
       background: white;
       color: black;
+      border-radius: @borderRadius;
     }
   }
 }
