@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import moment from "moment";
 import { Context } from ".";
 
 const DAYS_IN_CALENDAR = 42;
@@ -19,6 +20,7 @@ export const Days: React.SFC<Props> = props => {
   const daysToAdd = days + 1 - prevMonth.date();
 
   const firstDay = prevMonth.date();
+  const today = moment().date();
   let dayCells: { children: number; className: string }[] = Array.from(
     {
       length: daysToAdd
@@ -29,7 +31,10 @@ export const Days: React.SFC<Props> = props => {
       {
         length: viewDate.daysInMonth()
       },
-      (_v, i) => ({ children: i + 1, className: "" })
+      (_v, i) => ({
+        children: i + 1,
+        className: i + 1 === today ? "today" : ""
+      })
     )
   );
 
