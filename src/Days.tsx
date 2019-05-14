@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Context } from ".";
 
+const DAYS_IN_CALENDAR = 42;
+
 interface Props {}
 
 export const Days: React.SFC<Props> = props => {
@@ -34,7 +36,7 @@ export const Days: React.SFC<Props> = props => {
   dayCells = dayCells.concat(
     Array.from(
       {
-        length: 7 - (dayCells.length % 7)
+        length: DAYS_IN_CALENDAR - dayCells.length
       },
       (_v, i) => ({ children: i + 1, className: "new" })
     )
