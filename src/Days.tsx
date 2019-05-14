@@ -1,17 +1,19 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
+import { Context } from ".";
 
 interface Props {
   viewDate: moment.Moment;
 }
 
 export const Days: React.SFC<Props> = props => {
+  const { viewDate } = useContext(Context);
+
   const t = performance.now();
 
   const year = props.viewDate.year();
   const month = props.viewDate.month();
 
-  const nextMonth = props.viewDate.clone().add(1, "month");
   let prevMonth = props.viewDate.clone().subtract(1, "month");
   const days = prevMonth.daysInMonth();
 

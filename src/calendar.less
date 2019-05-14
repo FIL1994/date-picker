@@ -1,16 +1,38 @@
+@borderRadius: 5px;
+
 .calendar {
   background-color: #29323f;
   color: white;
   width: 290px;
   padding: 25px;
-  border-radius: 5px;
+  border-radius: @borderRadius;
 
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     font-size: 1.1rem;
+    margin-bottom: 15px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back,
+    .next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+
+      cursor: pointer;
+
+      &:hover {
+        background: fadeout(black, 50%);
+        border-radius: @borderRadius;
+      }
+    }
   }
 
   .days {
