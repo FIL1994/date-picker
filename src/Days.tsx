@@ -54,6 +54,34 @@ export const Days: React.SFC<Props> = props => {
           key={`${viewDate.format("YYYY-MM")}-${index}`}
           {...cellProps}
           className={`day ${cellProps.className}`}
+          onClick={() => {
+            const { children: day, className } = cellProps;
+            let dateMonth = month;
+            let dateYear = year;
+
+            if (className.indexOf("old") !== -1) {
+              if (month === 0) {
+                dateYear--;
+                dateMonth = 11;
+              } else {
+                dateMonth--;
+              }
+            } else if (className.indexOf("new") !== -1) {
+              if (month === 11) {
+                dateYear++;
+                dateMonth = 0;
+              } else {
+                dateMonth++;
+              }
+            }
+
+            const date = moment({
+              day,
+              year: dateYear,
+              month: dateMonth
+            });
+            console.log(date.format("YYYY-MM-DD"));
+          }}
         />
       ))}
     </>
