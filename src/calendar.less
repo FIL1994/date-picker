@@ -2,7 +2,7 @@
 
 @borderRadius: 5px;
 @background: #29323f;
-@grey: #fff;
+@grey: #999;
 
 .calendar {
   background-color: @background;
@@ -46,13 +46,14 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     font-size: 1rem;
+    .user-select(none);
 
     * {
-      padding: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .old,
     .new {
       color: darken(@grey, 15%);
@@ -65,10 +66,28 @@
       margin-bottom: 5px;
     }
 
-    .day.today {
-      background: white;
-      color: black;
+    .day {
+      cursor: pointer;
       border-radius: @borderRadius;
+      transition: all 0.3s;
+
+      padding: 4px;
+      margin: 2px;
+
+      &:hover {
+        background: fadeout(@grey, 70%);
+      }
+
+      &.today {
+        background: darken(white, 2%);
+        color: black;
+
+        &:hover {
+          background: @background;
+          box-shadow: 0 0 1px 0 white;
+          color: white;
+        }
+      }
     }
   }
 }
