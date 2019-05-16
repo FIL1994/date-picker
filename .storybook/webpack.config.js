@@ -31,6 +31,17 @@ module.exports = ({ config, mode }) => {
     include: path.resolve(__dirname, "../")
   });
 
+  config.module.rules.push({
+    test: /\.stories\.jsx?$/,
+    loaders: [
+      {
+        loader: require.resolve("@storybook/addon-storysource/loader"),
+        options: { parser: "typescript" }
+      }
+    ],
+    enforce: "pre"
+  });
+
   config.resolve.extensions.push(".ts", ".tsx");
   return config;
 };
