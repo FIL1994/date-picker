@@ -11,5 +11,10 @@ storiesOf("Calendar", module)
   .add("default", () => {
     const date = moment();
 
-    return <Calendar date={date} />;
+    return (
+      <Calendar
+        date={date}
+        onChange={date => console.log(date.format("YYYY-MM-DD"), date)}
+      />
+    );
   });

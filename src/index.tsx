@@ -9,6 +9,7 @@ type DateSelectorContext = {
   viewDate: moment.Moment;
   dateSelected?: moment.Moment;
   setViewDate?: React.Dispatch<React.SetStateAction<moment.Moment>>;
+  onChange?: (date: moment.Moment) => void;
 };
 
 export const Context: React.Context<DateSelectorContext> = React.createContext({
@@ -16,7 +17,8 @@ export const Context: React.Context<DateSelectorContext> = React.createContext({
 });
 
 interface Props {
-  date?: moment.Moment;
+  date: moment.Moment;
+  onChange: (date: moment.Moment) => void;
 }
 
 export const DateSelector: React.FunctionComponent<Props> = props => {
@@ -43,7 +45,12 @@ export const DateSelector: React.FunctionComponent<Props> = props => {
 
   return (
     <Context.Provider
-      value={{ viewDate, setViewDate, dateSelected: props.date }}
+      value={{
+        viewDate,
+        setViewDate,
+        dateSelected: props.date,
+        onChange: props.onChange
+      }}
     >
       <div className="calendar">
         <div className="header">

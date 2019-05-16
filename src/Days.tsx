@@ -6,7 +6,8 @@ import { checkIsSameMonthAndYear } from "./helpers";
 const DAYS_IN_CALENDAR = 42;
 
 export const Days: React.FunctionComponent<{}> = () => {
-  const { viewDate, dateSelected } = useContext(Context);
+  const context = useContext(Context);
+  const { viewDate, dateSelected } = context;
 
   const year = viewDate.year();
   const month = viewDate.month();
@@ -81,12 +82,13 @@ export const Days: React.FunctionComponent<{}> = () => {
               }
             }
 
-            const date = moment({
-              day,
-              year: dateYear,
-              month: dateMonth
-            });
-            console.log(date.format("YYYY-MM-DD"));
+            context.onChange(
+              moment({
+                day,
+                year: dateYear,
+                month: dateMonth
+              })
+            );
           }}
         />
       ))}
