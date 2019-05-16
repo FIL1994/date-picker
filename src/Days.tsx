@@ -5,13 +5,12 @@ import { checkIsSameMonthAndYear } from "./helpers";
 
 const DAYS_IN_CALENDAR = 42;
 
-export const Days: React.FunctionComponent<{}> = () => {
-  const context = useContext(Context);
-  const { viewDate, dateSelected } = context;
+type Day = {
+  children: number;
+  className: string;
+};
 
-  const year = viewDate.year();
-  const month = viewDate.month();
-
+function getPrevMonthDays(viewDate: moment.Moment): Array<Day> {
   let prevMonth = viewDate.clone().subtract(1, "month");
   const days = prevMonth.daysInMonth();
 
@@ -20,43 +19,64 @@ export const Days: React.FunctionComponent<{}> = () => {
   const daysInPrevMonth = days + 1 - prevMonth.date();
 
   const firstDay = prevMonth.date();
+
+  // change to first day of last week in previous month
+  prevMonth.date(days).startOf("week");
+
+  return Array.from(
+    {
+      length: daysInPrevMonth
+    },
+    (_v, i) => ({ children: i + firstDay, className: "old" })
+  );
+}
+
+function getCurrentMonthDays(
+  viewDate: moment.Moment,
+  dateSelected: moment.Moment
+): Array<Day> {
+  const year = viewDate.year();
+  const month = viewDate.month();
+
   const isSameMonthAndYearAsSelected = checkIsSameMonthAndYear(
     { month, year },
     dateSelected
   );
 
-  let dayCells: { children: number; className: string }[] =
-    // add days from previous month
-    Array.from(
-      {
-        length: daysInPrevMonth
-      },
-      (_v, i) => ({ children: i + firstDay, className: "old" })
-    ).concat(
-      // add days from this month
-      Array.from(
-        {
-          length: viewDate.daysInMonth()
-        },
-        (_v, i) => ({
-          children: i + 1,
-          className:
-            isSameMonthAndYearAsSelected && i + 1 === dateSelected.date()
-              ? "date-selected"
-              : ""
-        })
-      )
-    );
-
-  // add days from next month
-  dayCells = dayCells.concat(
-    Array.from(
-      {
-        length: DAYS_IN_CALENDAR - dayCells.length
-      },
-      (_v, i) => ({ children: i + 1, className: "new" })
-    )
+  return Array.from(
+    {
+      length: viewDate.daysInMonth()
+    },
+    (_v, i) => ({
+      children: i + 1,
+      className:
+        isSameMonthAndYearAsSelected && i + 1 === dateSelected.date()
+          ? "date-selected"
+          : ""
+    })
   );
+}
+
+function getNextMonthDays(currentDays: number): Array<Day> {
+  return Array.from(
+    {
+      length: DAYS_IN_CALENDAR - currentDays
+    },
+    (_v, i) => ({ children: i + 1, className: "new" })
+  );
+}
+
+export const Days: React.FunctionComponent<{}> = () => {
+  const context = useContext(Context);
+  const { viewDate, dateSelected } = context;
+
+  const year = viewDate.year();
+  const month = viewDate.month();
+
+  let dayCells: Array<Day> = getPrevMonthDays(viewDate).concat(
+    getCurrentMonthDays(viewDate, dateSelected)
+  );
+  dayCells = dayCells.concat(getNextMonthDays(dayCells.length));
 
   return (
     <>
