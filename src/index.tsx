@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import moment from "moment";
 import Calendar from "./Calendar";
+import Input from "./Input";
 import "./calendar.less";
-
-window.moment = moment;
 
 type DateSelectorContext = {
   viewDate: moment.Moment;
@@ -33,6 +32,7 @@ export const DateSelector: React.FunctionComponent<Props> = props => {
         onChange: props.onChange
       }}
     >
+      <Input />
       <Calendar />
     </Context.Provider>
   );

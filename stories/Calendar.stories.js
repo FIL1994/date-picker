@@ -5,6 +5,8 @@ import { storiesOf } from "@storybook/react";
 import Calendar from "../src/index.tsx";
 import { withInfo } from "@storybook/addon-info";
 
+window.moment = moment;
+
 storiesOf("Calendar", module)
   .addDecorator(withInfo)
   .add("default", () => {
