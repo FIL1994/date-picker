@@ -2,13 +2,12 @@ import React, { useState, useContext } from "react";
 import { Context } from ".";
 
 function format(value: Readonly<string>): string {
-  let formatted = value.replace(/[^0-9]/g, "");
-  formatted = `${formatted.slice(0, 4)}-${formatted.slice(
-    4,
-    6
-  )}-${formatted.slice(6, 8)}`;
+  let filteredValue = value.replace(/[^0-9]/g, "");
+  let year = filteredValue.slice(0, 4);
+  let month = filteredValue.slice(4, 6);
+  let day = filteredValue.slice(6, 8);
 
-  return formatted;
+  return `${year}-${month}-${day}`;
 }
 
 const Input = () => {
