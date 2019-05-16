@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import { Context } from ".";
+import { checkIsSameMonthAndYear } from "./helpers";
 
 const DAYS_IN_CALENDAR = 42;
 
-export const Days: React.SFC<{}> = props => {
-  const { viewDate } = useContext(Context);
+export const Days: React.FunctionComponent<{}> = () => {
+  const { viewDate, dateSelected } = useContext(Context);
 
   const year = viewDate.year();
   const month = viewDate.month();
@@ -18,7 +19,11 @@ export const Days: React.SFC<{}> = props => {
   const daysToAdd = days + 1 - prevMonth.date();
 
   const firstDay = prevMonth.date();
-  const today = moment().date();
+  const isSameMonthAndYearAsSelected = checkIsSameMonthAndYear(
+    { month, year },
+    dateSelected
+  );
+
   let dayCells: { children: number; className: string }[] = Array.from(
     {
       length: daysToAdd
@@ -31,7 +36,10 @@ export const Days: React.SFC<{}> = props => {
       },
       (_v, i) => ({
         children: i + 1,
-        className: i + 1 === today ? "today" : ""
+        className:
+          isSameMonthAndYearAsSelected && i + 1 === dateSelected.date()
+            ? "date-selected"
+            : ""
       })
     )
   );

@@ -7,7 +7,7 @@ window.moment = moment;
 
 type DateSelectorContext = {
   viewDate: moment.Moment;
-  selectedDate?: moment.Moment;
+  dateSelected?: moment.Moment;
   setViewDate?: React.Dispatch<React.SetStateAction<moment.Moment>>;
 };
 
@@ -16,10 +16,10 @@ export const Context: React.Context<DateSelectorContext> = React.createContext({
 });
 
 interface Props {
-  selectedDate?: moment.Moment;
+  date?: moment.Moment;
 }
 
-export const DateSelector: React.SFC<Props> = props => {
+export const DateSelector: React.FunctionComponent<Props> = props => {
   const [viewDate, setViewDate] = useState(() => moment());
   const weekdays = useMemo(() => moment.weekdaysMin(), []);
 
@@ -43,7 +43,7 @@ export const DateSelector: React.SFC<Props> = props => {
 
   return (
     <Context.Provider
-      value={{ viewDate, setViewDate, selectedDate: props.selectedDate }}
+      value={{ viewDate, setViewDate, dateSelected: props.date }}
     >
       <div className="calendar">
         <div className="header">

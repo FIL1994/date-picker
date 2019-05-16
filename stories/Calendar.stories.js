@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -7,4 +8,8 @@ import { withInfo } from "@storybook/addon-info";
 
 storiesOf("Calendar", module)
   .addDecorator(withInfo)
-  .add("default", () => <Calendar />);
+  .add("default", () => {
+    const date = moment();
+
+    return <Calendar date={date} />;
+  });
