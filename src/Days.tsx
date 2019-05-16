@@ -4,9 +4,7 @@ import { Context } from ".";
 
 const DAYS_IN_CALENDAR = 42;
 
-interface Props {}
-
-export const Days: React.SFC<Props> = props => {
+export const Days: React.SFC<{}> = props => {
   const { viewDate } = useContext(Context);
 
   const year = viewDate.year();

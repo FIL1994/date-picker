@@ -3,18 +3,21 @@ import moment from "moment";
 import "./calendar.less";
 import Days from "./Days";
 
-export const Context = React.createContext({ viewDate: moment() });
-
 window.moment = moment;
-
-interface Props {
-  selectedDate?: moment.Moment;
-}
 
 type DateSelectorContext = {
   viewDate: moment.Moment;
   selectedDate?: moment.Moment;
+  setViewDate?: React.Dispatch<React.SetStateAction<moment.Moment>>;
 };
+
+export const Context: React.Context<DateSelectorContext> = React.createContext({
+  viewDate: moment()
+});
+
+interface Props {
+  selectedDate?: moment.Moment;
+}
 
 export const DateSelector: React.SFC<Props> = props => {
   const [viewDate, setViewDate] = useState(() => moment());
@@ -39,7 +42,9 @@ export const DateSelector: React.SFC<Props> = props => {
   }
 
   return (
-    <Context.Provider value={{ viewDate, setViewDate }}>
+    <Context.Provider
+      value={{ viewDate, setViewDate, selectedDate: props.selectedDate }}
+    >
       <div className="calendar">
         <div className="header">
           <span className="back" onClick={onBack}>{`<`}</span>
