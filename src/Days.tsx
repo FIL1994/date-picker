@@ -17,7 +17,7 @@ export const Days: React.FunctionComponent<{}> = () => {
 
   // change to first day of last week in previous month
   prevMonth.date(days).startOf("week");
-  const daysToAdd = days + 1 - prevMonth.date();
+  const daysInPrevMonth = days + 1 - prevMonth.date();
 
   const firstDay = prevMonth.date();
   const isSameMonthAndYearAsSelected = checkIsSameMonthAndYear(
@@ -25,26 +25,30 @@ export const Days: React.FunctionComponent<{}> = () => {
     dateSelected
   );
 
-  let dayCells: { children: number; className: string }[] = Array.from(
-    {
-      length: daysToAdd
-    },
-    (_v, i) => ({ children: i + firstDay, className: "old" })
-  ).concat(
+  let dayCells: { children: number; className: string }[] =
+    // add days from previous month
     Array.from(
       {
-        length: viewDate.daysInMonth()
+        length: daysInPrevMonth
       },
-      (_v, i) => ({
-        children: i + 1,
-        className:
-          isSameMonthAndYearAsSelected && i + 1 === dateSelected.date()
-            ? "date-selected"
-            : ""
-      })
-    )
-  );
+      (_v, i) => ({ children: i + firstDay, className: "old" })
+    ).concat(
+      // add days from this month
+      Array.from(
+        {
+          length: viewDate.daysInMonth()
+        },
+        (_v, i) => ({
+          children: i + 1,
+          className:
+            isSameMonthAndYearAsSelected && i + 1 === dateSelected.date()
+              ? "date-selected"
+              : ""
+        })
+      )
+    );
 
+  // add days from next month
   dayCells = dayCells.concat(
     Array.from(
       {
