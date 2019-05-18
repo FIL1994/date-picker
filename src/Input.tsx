@@ -4,9 +4,9 @@ import { Context } from ".";
 import "./input.less";
 
 interface Ranges {
-  YEAR: [number, number];
-  MONTH: [number, number];
-  DAY: [number, number];
+  YEAR: Readonly<[number, number]>;
+  MONTH: Readonly<[number, number]>;
+  DAY: Readonly<[number, number]>;
 }
 
 interface DateObject {
@@ -121,7 +121,7 @@ const Input = () => {
           const { target }: any = event;
           const { selectionStart, selectionEnd } = target;
 
-          const setRange = (range: [number, number]) => {
+          const setRange = (range: Readonly<[number, number]>) => {
             if (ref.current) {
               setTimeout(() => {
                 ref.current.setSelectionRange(...range);
