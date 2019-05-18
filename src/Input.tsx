@@ -57,6 +57,14 @@ function getRangeFromSelection(selectionStart: number, selectionEnd: number) {
   return range ? range[0] : undefined;
 }
 
+function incrementGranularity(granularity: string, max: number): string {
+  let newGranularity = Number(granularity);
+  if (isNaN(newGranularity)) return granularity;
+
+  newGranularity = Math.min(newGranularity + 1, max);
+  return newGranularity.toString();
+}
+
 const Input = () => {
   const ref: Ref<null | HTMLInputElement> = useRef();
   const context = useContext(Context);
@@ -96,11 +104,7 @@ const Input = () => {
 
               switch (range) {
                 case "YEAR": {
-                  let year = Number(dateObject.year);
-                  if (isNaN(year)) return;
-
-                  year = Math.min(year + 1, 9999);
-                  dateObject.year = year.toString();
+                  dateObject.year = incrementGranularity(dateObject.year, 9999);
                   setDate(formatDate(dateObject));
 
                   if (ref.current) {
@@ -111,11 +115,7 @@ const Input = () => {
                   break;
                 }
                 case "MONTH": {
-                  let month = Number(dateObject.month);
-                  if (isNaN(month)) return;
-
-                  month = Math.min(month + 1, 12);
-                  dateObject.month = month.toString();
+                  dateObject.month = incrementGranularity(dateObject.month, 12);
                   setDate(formatDate(dateObject));
 
                   if (ref.current) {
@@ -126,11 +126,7 @@ const Input = () => {
                   break;
                 }
                 case "DAY": {
-                  let day = Number(dateObject.day);
-                  if (isNaN(day)) return;
-
-                  day = Math.min(day + 1, 31);
-                  dateObject.day = day.toString();
+                  dateObject.day = incrementGranularity(dateObject.day, 31);
                   setDate(formatDate(dateObject));
 
                   if (ref.current) {
