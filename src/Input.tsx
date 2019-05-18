@@ -95,6 +95,14 @@ const Input = () => {
           const { target }: any = event;
           const { selectionStart, selectionEnd } = target;
 
+          const setRange = (range: [number, number]) => {
+            if (ref.current) {
+              setTimeout(() => {
+                ref.current.setSelectionRange(...range);
+              });
+            }
+          };
+
           switch (event.key) {
             case "ArrowUp": {
               const range = getRangeFromSelection(selectionStart, selectionEnd);
@@ -106,34 +114,19 @@ const Input = () => {
                 case "YEAR": {
                   dateObject.year = incrementGranularity(dateObject.year, 9999);
                   setDate(formatDate(dateObject));
-
-                  if (ref.current) {
-                    setTimeout(() => {
-                      ref.current.setSelectionRange(...Ranges.YEAR);
-                    });
-                  }
+                  setRange(Ranges.YEAR);
                   break;
                 }
                 case "MONTH": {
                   dateObject.month = incrementGranularity(dateObject.month, 12);
                   setDate(formatDate(dateObject));
-
-                  if (ref.current) {
-                    setTimeout(() => {
-                      ref.current.setSelectionRange(...Ranges.MONTH);
-                    });
-                  }
+                  setRange(Ranges.MONTH);
                   break;
                 }
                 case "DAY": {
                   dateObject.day = incrementGranularity(dateObject.day, 31);
                   setDate(formatDate(dateObject));
-
-                  if (ref.current) {
-                    setTimeout(() => {
-                      ref.current.setSelectionRange(...Ranges.DAY);
-                    });
-                  }
+                  setRange(Ranges.DAY);
                   break;
                 }
               }
