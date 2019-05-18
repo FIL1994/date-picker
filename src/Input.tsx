@@ -3,11 +3,17 @@ import { useId } from "@reach/auto-id";
 import { Context } from ".";
 import "./input.less";
 
+const ranges = {
+  YEAR: [0, 4],
+  MONTH: [4, 6],
+  DAY: [6, 8]
+};
+
 function format(value: Readonly<string>): string {
   let filteredValue = value.replace(/[^0-9]/g, "");
-  let year = filteredValue.slice(0, 4);
-  let month = filteredValue.slice(4, 6);
-  let day = filteredValue.slice(6, 8);
+  let year = filteredValue.slice(...ranges.YEAR) || "YYYY";
+  let month = filteredValue.slice(...ranges.MONTH) || "MM";
+  let day = filteredValue.slice(...ranges.DAY) || "DD";
 
   return `${year}-${month}-${day}`;
 }
@@ -25,10 +31,15 @@ const Input = () => {
         id={labelId}
         type="text"
         value={format(date)}
-        onChange={e => {
-          const value = e.target.value.replace(/[^0-9]/g, "");
-          console.log(value);
+        onChange={({ target }) => {
+          const value = target.value.replace(/[^0-9]/g, "");
           setDate(value);
+
+          const { selectionStart, selectionEnd } = target;
+
+          setTimeout(() =>
+            target.setSelectionRange(selectionStart, selectionEnd)
+          );
         }}
       />
     </>
