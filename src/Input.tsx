@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, Ref } from "react";
+import React, { useState, useContext, useRef, Ref, useEffect } from "react";
 import { useId } from "@reach/auto-id";
 import { Context } from ".";
 import "./input.less";
@@ -14,6 +14,8 @@ interface DateObject {
   month: Readonly<string>;
   day: Readonly<string>;
 }
+
+const DATE_FORMAT = "YYYYMMDD";
 
 const RangesFiltered: Ranges = {
   YEAR: [0, 4],
@@ -94,9 +96,13 @@ function decrementGranularity(
 const Input = () => {
   const ref: Ref<null | HTMLInputElement> = useRef();
   const context = useContext(Context);
-  const [date, setDate] = useState(context.dateSelected.format("YYYYMMDD"));
+  const [date, setDate] = useState(context.dateSelected.format(DATE_FORMAT));
   const id = useId();
   const labelId = `date-picker-${id}`;
+
+  useEffect(() => {
+    setDate(context.dateSelected.format(DATE_FORMAT));
+  }, [context.dateSelected]);
 
   return (
     <>
