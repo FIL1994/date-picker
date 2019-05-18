@@ -57,11 +57,37 @@ function getRangeFromSelection(selectionStart: number, selectionEnd: number) {
   return range ? range[0] : undefined;
 }
 
-function incrementGranularity(granularity: string, max: number): string {
+function incrementGranularity(
+  granularity: string,
+  min: number,
+  max: number
+): string {
   let newGranularity = Number(granularity);
   if (isNaN(newGranularity)) return granularity;
 
-  newGranularity = Math.min(newGranularity + 1, max);
+  if (newGranularity === max) {
+    newGranularity = min;
+  } else {
+    newGranularity = Math.min(newGranularity + 1, max);
+  }
+
+  return newGranularity.toString();
+}
+
+function decrementGranularity(
+  granularity: string,
+  min: number,
+  max: number
+): string {
+  let newGranularity = Number(granularity);
+  if (isNaN(newGranularity)) return granularity;
+
+  if (newGranularity === min) {
+    newGranularity = max;
+  } else {
+    newGranularity = Math.max(newGranularity - 1, min);
+  }
+
   return newGranularity.toString();
 }
 
@@ -103,35 +129,42 @@ const Input = () => {
             }
           };
 
-          switch (event.key) {
-            case "ArrowUp": {
-              const range = getRangeFromSelection(selectionStart, selectionEnd);
-              if (!range) return;
+          function handleKey(setGranularity: Function) {
+            const range = getRangeFromSelection(selectionStart, selectionEnd);
+            if (!range) return;
 
-              const dateObject = splitDate(date);
+            const dateObject = splitDate(date);
 
-              switch (range) {
-                case "YEAR": {
-                  dateObject.year = incrementGranularity(dateObject.year, 9999);
-                  setDate(formatDate(dateObject));
-                  setRange(Ranges.YEAR);
-                  break;
-                }
-                case "MONTH": {
-                  dateObject.month = incrementGranularity(dateObject.month, 12);
-                  setDate(formatDate(dateObject));
-                  setRange(Ranges.MONTH);
-                  break;
-                }
-                case "DAY": {
-                  dateObject.day = incrementGranularity(dateObject.day, 31);
-                  setDate(formatDate(dateObject));
-                  setRange(Ranges.DAY);
-                  break;
-                }
+            switch (range) {
+              case "YEAR": {
+                dateObject.year = setGranularity(dateObject.year, 0, 9999);
+                setDate(formatDate(dateObject));
+                setRange(Ranges.YEAR);
+                break;
+              }
+              case "MONTH": {
+                dateObject.month = setGranularity(dateObject.month, 1, 12);
+                setDate(formatDate(dateObject));
+                setRange(Ranges.MONTH);
+                break;
+              }
+              case "DAY": {
+                dateObject.day = setGranularity(dateObject.day, 1, 31);
+                setDate(formatDate(dateObject));
+                setRange(Ranges.DAY);
+                break;
               }
             }
+          }
+
+          switch (event.key) {
+            case "ArrowUp": {
+              handleKey(incrementGranularity);
+              break;
+            }
             case "ArrowDown": {
+              handleKey(decrementGranularity);
+              break;
             }
             case "Tab": {
             }
