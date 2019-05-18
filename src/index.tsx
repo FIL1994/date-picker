@@ -32,8 +32,10 @@ export const DateSelector: React.FunctionComponent<Props> = props => {
         onChange: props.onChange
       }}
     >
-      <Input />
-      <Calendar />
+      <span className="date-picker">
+        <Input />
+        <Calendar />
+      </span>
     </Context.Provider>
   );
 };
