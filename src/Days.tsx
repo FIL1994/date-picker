@@ -5,12 +5,12 @@ import { checkIsSameMonthAndYear } from "./helpers";
 
 const DAYS_IN_CALENDAR = 42;
 
-type Day = {
+interface Day {
   children: number;
   className: string;
-};
+}
 
-function getPrevMonthDays(viewDate: moment.Moment): Array<Day> {
+function getPrevMonthDays(viewDate: moment.Moment): Day[] {
   let prevMonth = viewDate.clone().subtract(1, "month");
   const days = prevMonth.daysInMonth();
 
@@ -34,7 +34,7 @@ function getPrevMonthDays(viewDate: moment.Moment): Array<Day> {
 function getCurrentMonthDays(
   viewDate: moment.Moment,
   dateSelected: moment.Moment
-): Array<Day> {
+): Day[] {
   const year = viewDate.year();
   const month = viewDate.month();
 
@@ -57,7 +57,7 @@ function getCurrentMonthDays(
   );
 }
 
-function getNextMonthDays(currentDays: number): Array<Day> {
+function getNextMonthDays(currentDays: number): Day[] {
   return Array.from(
     {
       length: DAYS_IN_CALENDAR - currentDays
@@ -73,7 +73,7 @@ export const Days: React.FunctionComponent<{}> = () => {
   const year = viewDate.year();
   const month = viewDate.month();
 
-  let dayCells: Array<Day> = getPrevMonthDays(viewDate).concat(
+  let dayCells: Day[] = getPrevMonthDays(viewDate).concat(
     getCurrentMonthDays(viewDate, dateSelected)
   );
   dayCells = dayCells.concat(getNextMonthDays(dayCells.length));
