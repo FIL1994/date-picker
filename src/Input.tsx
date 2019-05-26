@@ -93,7 +93,7 @@ function decrementGranularity(
   return newGranularity.toString();
 }
 
-const Input = () => {
+const Input = props => {
   const ref: Ref<null | HTMLInputElement> = useRef();
   const context = useContext(Context);
   const [date, setDate] = useState(context.dateSelected.format(DATE_FORMAT));
@@ -108,6 +108,7 @@ const Input = () => {
     <>
       <label htmlFor={labelId}>Date Selector</label>
       <input
+        {...props}
         ref={ref}
         id={labelId}
         type="text"

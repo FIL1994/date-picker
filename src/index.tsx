@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import Calendar from "./Calendar";
 import Input from "./Input";
+import Overlay from "./Overlay";
 import "./calendar.less";
 
 type DateSelectorContext = {
@@ -22,6 +23,7 @@ interface Props {
 
 export const DateSelector: React.FunctionComponent<Props> = props => {
   const [viewDate, setViewDate] = useState(() => moment());
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Context.Provider
@@ -33,8 +35,17 @@ export const DateSelector: React.FunctionComponent<Props> = props => {
       }}
     >
       <span className="date-picker">
-        <Input />
-        <Calendar />
+        <Input
+          onFocus={e => {
+            setIsOpen(true);
+          }}
+        />
+        {isOpen && (
+          <>
+            <Calendar />
+            <Overlay />
+          </>
+        )}
       </span>
     </Context.Provider>
   );
