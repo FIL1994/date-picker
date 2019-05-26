@@ -1,4 +1,5 @@
 import React, { useContext, useMemo } from "react";
+import * as ReactDOM from "react-dom";
 import moment from "moment";
 import { Context } from ".";
 import Days from "./Days";
@@ -26,8 +27,8 @@ const Calendar = () => {
     );
   }
 
-  return (
-    <div className="calendar">
+  return ReactDOM.createPortal(
+    <div className="date-picker-calendar">
       <div className="header">
         <span className="back" onClick={onBack}>{`<`}</span>
         <time className="title" dateTime={viewDate.format("YYYY-MM")}>
@@ -43,7 +44,8 @@ const Calendar = () => {
         ))}
         <Days />
       </div>
-    </div>
+    </div>,
+    document.querySelector("body")
   );
 };
 

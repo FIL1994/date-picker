@@ -35,15 +35,11 @@ export const DateSelector: React.FunctionComponent<Props> = props => {
       }}
     >
       <span className="date-picker">
-        <Input
-          onFocus={e => {
-            setIsOpen(true);
-          }}
-        />
+        <Input onFocus={() => setIsOpen(true)} />
         {isOpen && (
           <>
             <Calendar />
-            <Overlay />
+            <Overlay onFocus={() => setIsOpen(false)} />
           </>
         )}
       </span>

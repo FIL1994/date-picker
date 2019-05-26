@@ -1,95 +1,94 @@
 @import "./mixins";
+@import "vars";
 
 @borderRadius: 5px;
 @background: #29323f;
 @grey: #999;
 
-.date-picker {
-  font-family: "Open Sans";
+.date-picker-calendar {
+  background-color: @background;
+  color: white;
+  max-width: 250px;
+  width: 80%;
+  padding: 10px;
+  border-radius: @borderRadius;
+  z-index: @z-index + 1;
+  position: relative;
 
-  .calendar {
-    background-color: @background;
-    color: white;
-    max-width: 250px;
-    width: 80%;
-    padding: 10px;
-    border-radius: @borderRadius;
+  .header {
+    display: grid;
+    grid-template-columns: minmax(15px, 32px) 1fr minmax(15px, 32px);
+    font-size: 1rem;
+    margin-bottom: 15px;
 
-    .header {
-      display: grid;
-      grid-template-columns: minmax(15px, 32px) 1fr minmax(15px, 32px);
-      font-size: 1rem;
-      margin-bottom: 15px;
-
-      .title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .back,
-      .next {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 5px 0;
-        border-radius: @borderRadius;
-        cursor: pointer;
-        transition: background 0.3s;
-        .user-select(none);
-
-        &:hover {
-          background: fadeout(black, 50%);
-        }
-      }
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      font-size: 0.9rem;
+    .back,
+    .next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 0;
+      border-radius: @borderRadius;
+      cursor: pointer;
+      transition: background 0.3s;
       .user-select(none);
 
-      * {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      &:hover {
+        background: fadeout(black, 50%);
+      }
+    }
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: 0.9rem;
+    .user-select(none);
+
+    * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .old,
+    .new {
+      color: darken(@grey, 15%);
+    }
+
+    .weekday {
+      color: lighten(@grey, 5%);
+      font-size: 0.94rem;
+      border-bottom: 1px solid fadeout(white, 80%);
+      margin-bottom: 5px;
+    }
+
+    .day {
+      cursor: pointer;
+      border-radius: @borderRadius;
+      transition: all 0.3s;
+
+      padding: 4px;
+      margin: 2px;
+
+      &:hover {
+        background: fadeout(@grey, 70%);
       }
 
-      .old,
-      .new {
-        color: darken(@grey, 15%);
-      }
+      &.date-selected {
+        background: darken(white, 2%);
+        color: black;
 
-      .weekday {
-        color: lighten(@grey, 5%);
-        font-size: 0.94rem;
-        border-bottom: 1px solid fadeout(white, 80%);
-        margin-bottom: 5px;
-      }
-
-      .day {
-        cursor: pointer;
-        border-radius: @borderRadius;
-        transition: all 0.3s;
-
-        padding: 4px;
-        margin: 2px;
-
-        &:hover {
-          background: fadeout(@grey, 70%);
-        }
-
-        &.date-selected {
-          background: darken(white, 2%);
-          color: black;
-
-          // &:hover {
-          //   background: @background;
-          //   box-shadow: 0 0 1px 0 white;
-          //   color: white;
-          // }
-        }
+        // &:hover {
+        //   background: @background;
+        //   box-shadow: 0 0 1px 0 white;
+        //   color: white;
+        // }
       }
     }
   }
