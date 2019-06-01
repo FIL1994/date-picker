@@ -39,7 +39,12 @@ const DateSelector: React.FunctionComponent<Props> = props => {
         {isOpen && (
           <>
             <Calendar />
-            <Overlay onFocus={() => setIsOpen(false)} />
+            <Overlay
+              onFocus={() => {
+                setIsOpen(false);
+                setViewDate(props.date);
+              }}
+            />
           </>
         )}
       </span>
