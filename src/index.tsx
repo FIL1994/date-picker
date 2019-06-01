@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Calendar from "./Calendar";
 import Input from "./Input";
@@ -24,6 +24,10 @@ interface Props {
 const DateSelector: React.FunctionComponent<Props> = props => {
   const [viewDate, setViewDate] = useState(() => moment());
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setViewDate(props.date);
+  }, [props.date]);
 
   return (
     <Context.Provider

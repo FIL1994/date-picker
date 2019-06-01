@@ -1,5 +1,6 @@
 import React, { useState, useContext, useRef, Ref, useEffect } from "react";
 import { useId } from "@reach/auto-id";
+import moment from "moment";
 import { Context } from ".";
 import "./input.less";
 
@@ -103,6 +104,14 @@ const Input = props => {
   useEffect(() => {
     setDate(context.dateSelected.format(DATE_FORMAT));
   }, [context.dateSelected]);
+
+  useEffect(() => {
+    const selectedDate = moment(date, DATE_FORMAT);
+
+    if (selectedDate.isValid() && !selectedDate.isSame(context.dateSelected)) {
+      context.onChange(selectedDate);
+    }
+  }, [date]);
 
   return (
     <>
