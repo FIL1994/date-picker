@@ -1,6 +1,11 @@
 const path = require("path");
 
-module.exports = ({ config, mode }) => {
+module.exports = ({ config }) => {
+  // remove default css loader
+  config.module.rules = config.module.rules.filter(
+    rule => rule.test.toString() !== "/\\.css$/"
+  );
+
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     use: [
